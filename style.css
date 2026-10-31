@@ -1,537 +1,208 @@
-:root {
-  --verde-bosque: #3A5A40;
-  --verde-oliva: #6A8F5E;
-  --crema: #F5EDE0;
-  --marron-tierra: #8B5E3C;
-  --dorado: #C8A96E;
-  --verde-oscuro: #1F3320;
-  --texto-principal: #2B2318;
-  --texto-suave: #6B5744;
-  --blanco: #FFFFFF;
-
-  --radio: 14px;
-  --sombra: 0 10px 25px rgba(31, 51, 32, 0.08);
-  --fuente: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--fuente);
-  background-color: var(--crema);
-  color: var(--texto-principal);
-  line-height: 1.6;
-}
-
-.container {
-  width: min(1100px, 100%);
-  margin-inline: auto;
-  padding-inline: 20px;
-}
-
-/* Navbar */
-.navbar {
-  background-color: var(--verde-oscuro);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.navbar-container {
-  width: min(1100px, 100%);
-  margin-inline: auto;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--crema);
-  font-size: 1.35rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.logo-icon {
-  font-size: 1.4rem;
-}
-
-.nav-links {
-  display: flex;
-  gap: 22px;
-  flex-wrap: wrap;
-}
-
-.nav-links a {
-  color: var(--dorado);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover {
-  color: var(--crema);
-}
-
-/* Botones */
-.btn {
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 0.95rem;
-  padding: 12px 22px;
-  border-radius: 999px;
-  transition: transform 0.15s ease, background-color 0.2s ease,
-    color 0.2s ease, border-color 0.2s ease;
-}
-
-.btn:active {
-  transform: scale(0.97);
-}
-
-.btn-primary {
-  background-color: var(--marron-tierra);
-  color: var(--crema);
-}
-
-.btn-primary:hover {
-  background-color: #744d31;
-}
-
-.btn-secondary {
-  background-color: transparent;
-  color: var(--crema);
-  border: 2px solid var(--crema);
-}
-
-.btn-secondary:hover {
-  background-color: rgba(245, 237, 224, 0.12);
-}
-
-.btn-outline-dark {
-  background-color: transparent;
-  color: var(--verde-bosque);
-  border: 2px solid var(--verde-bosque);
-}
-
-.btn-outline-dark:hover {
-  background-color: var(--verde-bosque);
-  color: var(--crema);
-}
-
-.btn-danger {
-  background-color: transparent;
-  color: #9b2c2c;
-  border: 2px solid #9b2c2c;
-}
-
-.btn-danger:hover {
-  background-color: #9b2c2c;
-  color: var(--crema);
-}
-
-.btn-small {
-  padding: 8px 14px;
-  font-size: 0.8rem;
-}
-
-.btn-full {
-  width: 100%;
-}
-
-/* Hero */
-.hero {
-  background-color: var(--verde-bosque);
-  color: var(--crema);
-  padding: 90px 0;
-}
-
-.hero-container {
-  width: min(1100px, 100%);
-  margin-inline: auto;
-  padding-inline: 20px;
-  text-align: center;
-}
-
-.hero-badge {
-  display: inline-block;
-  background-color: rgba(245, 237, 224, 0.14);
-  color: var(--crema);
-  padding: 7px 16px;
-  border-radius: 999px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  margin-bottom: 22px;
-}
-
-.hero h1 {
-  font-size: 2.8rem;
-  font-weight: 800;
-  color: var(--crema);
-  max-width: 760px;
-  margin-inline: auto;
-  margin-bottom: 18px;
-}
-
-.hero-text {
-  max-width: 620px;
-  margin-inline: auto;
-  margin-bottom: 32px;
-  color: rgba(245, 237, 224, 0.85);
-}
-
-.hero-actions {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-/* Secciones */
-.section {
-  padding: 70px 0;
-}
-
-.section-alt {
-  background-color: #EFE4D2;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 28px;
-}
-
-.section h2 {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--verde-bosque);
-}
-
-.section-subtitle {
-  color: var(--texto-suave);
-  font-size: 0.95rem;
-}
-
-.section-tag {
-  background-color: var(--verde-bosque);
-  color: var(--crema);
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-/* Formulario */
-.task-form {
-  background-color: var(--blanco);
-  padding: 28px;
-  border-radius: var(--radio);
-  box-shadow: var(--sombra);
-  display: grid;
-  gap: 18px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-}
-
-.form-group {
-  display: grid;
-  gap: 7px;
-}
-
-label {
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--texto-suave);
-}
-
-input,
-select {
-  width: 100%;
-  padding: 12px 14px;
-  border: 2px solid #E2D6C2;
-  border-radius: 10px;
-  background-color: #FDF9F2;
-  color: var(--texto-principal);
-  font-family: inherit;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-input:focus,
-select:focus {
-  border-color: var(--verde-oliva);
-  box-shadow: 0 0 0 4px rgba(106, 143, 94, 0.16);
-}
-
-/* Tareas */
-.task-list,
-.completed-list {
-  display: grid;
-  gap: 14px;
-}
-
-.task-card {
-  background-color: var(--blanco);
-  border: 1px solid #E7DCC9;
-  border-left: 6px solid var(--verde-oliva);
-  border-radius: var(--radio);
-  padding: 18px;
-  box-shadow: var(--sombra);
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.task-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--verde-oliva);
-}
-
-.task-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-}
-
-.task-id {
-  color: var(--texto-suave);
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.task-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--texto-principal);
-}
-
-.badge {
-  font-size: 0.72rem;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 999px;
-  text-transform: uppercase;
-}
-
-.badge-alta {
-  background-color: rgba(139, 94, 60, 0.14);
-  color: var(--marron-tierra);
-}
-
-.badge-media {
-  background-color: rgba(106, 143, 94, 0.16);
-  color: #4F6B44;
-}
-
-.badge-baja {
-  background-color: rgba(58, 90, 64, 0.14);
-  color: var(--verde-bosque);
-}
-
-.task-info {
-  color: var(--texto-suave);
-  font-size: 0.88rem;
-  margin-bottom: 14px;
-}
-
-.task-info strong {
-  color: var(--texto-principal);
-}
-
-.task-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.task-actions select {
-  width: auto;
-  min-width: 150px;
-}
-
-.task-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.completed-card {
-  background-color: rgba(58, 90, 64, 0.07);
-  border: 1px solid rgba(58, 90, 64, 0.18);
-  border-radius: var(--radio);
-  padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.completed-title {
-  font-weight: 700;
-  color: var(--verde-bosque);
-  text-decoration: line-through;
-  opacity: 0.8;
-}
-
-.completed-date {
-  font-size: 0.82rem;
-  color: var(--texto-suave);
-}
-
-.empty-message {
-  text-align: center;
-  color: var(--texto-suave);
-  font-weight: 600;
-  padding: 26px;
-  background-color: var(--blanco);
-  border: 2px dashed #D9CBB4;
-  border-radius: var(--radio);
-}
-
-/* Estadísticas */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.stat-card {
-  background-color: var(--blanco);
-  border-radius: var(--radio);
-  padding: 26px;
-  text-align: center;
-  box-shadow: var(--sombra);
-  border-top: 5px solid var(--verde-bosque);
-}
-
-.stat-label {
-  display: block;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--texto-suave);
-  margin-bottom: 6px;
-}
-
-.stat-value {
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: var(--verde-bosque);
-}
-
-/* Historial */
-.log-container {
-  background-color: var(--verde-oscuro);
-  color: var(--crema);
-  border-radius: var(--radio);
-  padding: 22px;
-  font-family: "Courier New", monospace;
-  font-size: 0.88rem;
-  max-height: 240px;
-  overflow-y: auto;
-}
-
-.log-line {
-  padding: 3px 0;
-}
-
-.log-line::before {
-  content: "> ";
-  color: var(--dorado);
-  font-weight: 700;
-}
-
-/* Footer */
-.footer {
-  background-color: var(--verde-oscuro);
-  color: var(--crema);
-  padding: 40px 0;
-  margin-top: 30px;
-}
-
-.footer-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.footer-logo {
-  font-size: 1.3rem;
-  font-weight: 800;
-  margin-bottom: 5px;
-}
-
-.footer-text {
-  color: rgba(245, 237, 224, 0.75);
-  font-size: 0.9rem;
-}
-
-.footer-copy {
-  color: var(--dorado);
-  font-size: 0.88rem;
-  font-weight: 600;
-}
-
-/* Responsive */
-@media (max-width: 760px) {
-  .hero {
-    padding: 65px 0;
-  }
-
-  .hero h1 {
-    font-size: 2.1rem;
-  }
-
-  .form-grid,
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .navbar-container {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .nav-links {
-    justify-content: center;
-  }
-
-  .task-actions {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .task-actions select,
-  .task-buttons {
-    width: 100%;
-  }
-
-  .task-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driada — Gestor de Tareas</title>
+
+  <!-- acá conecto el archivo de estilos (tiene que estar en la misma carpeta) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========== MENÚ DE ARRIBA ========== -->
+  <header class="navbar">
+    <div class="navbar-container">
+      <a href="#" class="logo">
+        <span class="logo-icon">🍃</span>
+        Driada
+      </a>
+
+      <!-- los href con # llevan a la sección que tiene ese mismo id -->
+      <nav class="nav-links">
+        <a href="#nueva-tarea">Nueva tarea</a>
+        <a href="#tareas">Tareas</a>
+        <a href="#estadisticas">Estadísticas</a>
+        <a href="#historial">Historial</a>
+      </nav>
+
+      <!-- scrollToSection es una función que está en script.js -->
+      <button class="btn btn-primary" onclick="scrollToSection('nueva-tarea')">
+        Nueva tarea
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========== PORTADA ========== -->
+    <section class="hero">
+      <div class="hero-container">
+        <h1>PANEL DE CONTROL</h1>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="scrollToSection('nueva-tarea')">
+            Crear primera tarea
+          </button>
+          <button class="btn btn-secondary" onclick="scrollToSection('tareas')">
+            Ver tareas
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FORMULARIO NUEVA TAREA ========== -->
+    <section id="nueva-tarea" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Nueva tarea</h2>
+          <p class="section-subtitle">Completá los datos y guardala en tu lista.</p>
+        </div>
+
+        <!-- el id "task-form" lo usa el JS para escuchar cuando se envía el formulario -->
+        <form id="task-form" class="task-form">
+          <div class="form-group">
+            <label for="task-title">Título</label>
+            <input
+              type="text"
+              id="task-title"
+              placeholder="Ej: Preparar informe mensual"
+              required
+            >
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="task-priority">Prioridad</label>
+              <select id="task-priority" required>
+                <option value="Alta">Alta</option>
+                <option value="Media" selected>Media</option>
+                <option value="Baja">Baja</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="task-category">Categoría</label>
+              <input
+                type="text"
+                id="task-category"
+                placeholder="Ej: Diseño, Desarrollo, Estudio"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="task-assignee">Responsable</label>
+              <input
+                type="text"
+                id="task-assignee"
+                placeholder="Nombre del responsable"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="task-deadline">Fecha límite</label>
+              <input
+                type="date"
+                id="task-deadline"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="task-status">Estado</label>
+            <select id="task-status" required>
+              <option value="pendiente" selected>Pendiente</option>
+              <option value="en curso">En curso</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">
+            Guardar tarea
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========== TAREAS ACTIVAS ========== -->
+    <section id="tareas" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Tareas activas</h2>
+          <button class="btn btn-outline-dark" onclick="exportCsv()">
+            Exportar CSV
+          </button>
+        </div>
+
+        <!-- este div arranca vacío, el JS le mete las tarjetas -->
+        <div id="task-list" class="task-list"></div>
+      </div>
+    </section>
+
+    <!-- ========== TAREAS FINALIZADAS ========== -->
+    <section id="finalizadas" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Tareas finalizadas</h2>
+        </div>
+
+        <!-- también se llena desde el JS -->
+        <div id="completed-list" class="completed-list"></div>
+      </div>
+    </section>
+
+    <!-- ========== ESTADÍSTICAS ========== -->
+    <section id="estadisticas" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Estadísticas</h2>
+        </div>
+
+        <!-- los números arrancan en 0 y el JS los actualiza -->
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">Activas</span>
+            <span id="stat-active" class="stat-value">0</span>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label">En curso</span>
+            <span id="stat-progress" class="stat-value">0</span>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label">Finalizadas</span>
+            <span id="stat-done" class="stat-value">0</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== HISTORIAL ========== -->
+    <section id="historial" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Historial de eventos</h2>
+          <span class="section-tag">Sistema activo</span>
+        </div>
+
+        <div id="log-container" class="log-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== PIE DE PÁGINA ========== -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <p class="footer-copy">© 2026 Driada</p>
+    </div>
+  </footer>
+
+  <!-- el script va al final para que el HTML ya esté cargado cuando corre -->
+  <script src="app.js"></script>
+</body>
+</html>
