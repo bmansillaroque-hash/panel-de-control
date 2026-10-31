@@ -4,10 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Driada — Gestor de Tareas</title>
+
+  <!-- acá conecto el archivo de estilos (tiene que estar en la misma carpeta) -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- ========== MENÚ DE ARRIBA ========== -->
   <header class="navbar">
     <div class="navbar-container">
       <a href="#" class="logo">
@@ -15,6 +18,7 @@
         Driada
       </a>
 
+      <!-- los href con # llevan a la sección que tiene ese mismo id -->
       <nav class="nav-links">
         <a href="#nueva-tarea">Nueva tarea</a>
         <a href="#tareas">Tareas</a>
@@ -22,6 +26,7 @@
         <a href="#historial">Historial</a>
       </nav>
 
+      <!-- scrollToSection es una función que está en script.js -->
       <button class="btn btn-primary" onclick="scrollToSection('nueva-tarea')">
         Nueva tarea
       </button>
@@ -29,6 +34,8 @@
   </header>
 
   <main>
+
+    <!-- ========== PORTADA ========== -->
     <section class="hero">
       <div class="hero-container">
         <h1>PANEL DE CONTROL</h1>
@@ -44,6 +51,7 @@
       </div>
     </section>
 
+    <!-- ========== FORMULARIO NUEVA TAREA ========== -->
     <section id="nueva-tarea" class="section">
       <div class="container">
         <div class="section-header">
@@ -51,6 +59,7 @@
           <p class="section-subtitle">Completá los datos y guardala en tu lista.</p>
         </div>
 
+        <!-- el id "task-form" lo usa el JS para escuchar cuando se envía el formulario -->
         <form id="task-form" class="task-form">
           <div class="form-group">
             <label for="task-title">Título</label>
@@ -119,6 +128,7 @@
       </div>
     </section>
 
+    <!-- ========== TAREAS ACTIVAS ========== -->
     <section id="tareas" class="section section-alt">
       <div class="container">
         <div class="section-header">
@@ -128,26 +138,31 @@
           </button>
         </div>
 
+        <!-- este div arranca vacío, el JS le mete las tarjetas -->
         <div id="task-list" class="task-list"></div>
       </div>
     </section>
 
+    <!-- ========== TAREAS FINALIZADAS ========== -->
     <section id="finalizadas" class="section">
       <div class="container">
         <div class="section-header">
           <h2>Tareas finalizadas</h2>
         </div>
 
+        <!-- también se llena desde el JS -->
         <div id="completed-list" class="completed-list"></div>
       </div>
     </section>
 
+    <!-- ========== ESTADÍSTICAS ========== -->
     <section id="estadisticas" class="section section-alt">
       <div class="container">
         <div class="section-header">
           <h2>Estadísticas</h2>
         </div>
 
+        <!-- los números arrancan en 0 y el JS los actualiza -->
         <div class="stats-grid">
           <article class="stat-card">
             <span class="stat-label">Activas</span>
@@ -167,6 +182,7 @@
       </div>
     </section>
 
+    <!-- ========== HISTORIAL ========== -->
     <section id="historial" class="section">
       <div class="container">
         <div class="section-header">
@@ -179,13 +195,14 @@
     </section>
   </main>
 
+  <!-- ========== PIE DE PÁGINA ========== -->
   <footer class="footer">
     <div class="container footer-container">
-      </div>
       <p class="footer-copy">© 2026 Driada</p>
     </div>
   </footer>
 
+  <!-- el script va al final para que el HTML ya esté cargado cuando corre -->
   <script src="app.js"></script>
 </body>
 </html>
