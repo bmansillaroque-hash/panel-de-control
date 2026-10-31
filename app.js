@@ -2,12 +2,21 @@
 // CONFIGURACIÓN
 // ==============================
 
-// Cambiar a true cuando la API esté lista
+// MODO LOCAL vs MODO API
+// false = modo local: los datos se guardan en el navegador (localStorage)
+// true  = modo API: los datos se guardan en el servidor (base de datos)
+// GUÍA: cuando la API esté lista, cambiar esto a true
 const USE_API = false;
 
-// URL futura de la API
+// Dirección de la API
+// GUÍA: ahora apunta a mi compu (127.0.0.1 = localhost, puerto 8000).
+// Cuando suba el backend a un servidor, reemplazar por la URL real, por ejemplo:
+// const API_URL = "https://mi-backend.onrender.com/api";
+// (si el sitio queda en https, la API también tiene que ser https)
+// (y el backend tiene que tener CORS activado para aceptar pedidos de este front)
 const API_URL = "http://127.0.0.1:8000/api";
 
+// Nombres con los que guardo cosas en localStorage (solo se usan en modo local)
 const STORAGE_KEY = "driada-tasks";
 const LOG_KEY = "driada-logs";
 
@@ -16,15 +25,17 @@ const LOG_KEY = "driada-logs";
 // ESTADO INICIAL
 // ==============================
 
-let tasks = [];
-let completedTasks = [];
-let logs = [];
+// acá guardo todo mientras la página está abierta
+let tasks = [];          // tareas activas
+let completedTasks = []; // tareas finalizadas
+let logs = [];           // historial de eventos
 
 
 // ==============================
 // UTILIDADES
 // ==============================
 
+// Arma la fecha y hora completa, ej: 26/10/2026 18:30:00
 function formatDate(date) {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -37,6 +48,7 @@ function formatDate(date) {
   return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
 }
 
+// Pasa una fecha de 2026-11-10 a 10/11/2026
 function formatDateOnly(value) {
   if (!value) return "Sin fecha";
 
@@ -44,6 +56,7 @@ function formatDateOnly(value) {
   return `${day}/${month}/${year}`;
 }
 
+// Cambia los caracteres raros (< > & etc.) para que nadie pueda meter código en los textos
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -53,12 +66,14 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+// Agrega una línea nueva al historial (arriba de todo)
 function addLog(message) {
   logs.unshift(`${formatDate(new Date())} — ${message}`);
   saveLogs();
   renderLogs();
 }
 
+// Baja suavemente hasta la sección que tenga ese id
 function scrollToSection(id) {
   const section = document.getElementById(id);
   if (section) {
@@ -71,6 +86,20 @@ function scrollToSection(id) {
 // PERSISTENCIA LOCAL
 // ==============================
 
+// Carga los datos al abrir la página
+// GUÍA API: acá es donde, en vez de leer de localStorage, habría que pedir los datos a la API.
+// Ejemplo (hay que volver la función async y llamarla con await al final del archivo):
+//
+// if (USE_API) {
+//   const resTasks = await fetch(`${API_URL}/tasks`);          // GET /api/tasks
+//   const dataTasks = await resTasks.json();
+//   tasks = dataTasks.active || [];
+//   completedTasks = dataTasks.completed || [];
+//
+//   const resLogs = await fetch(`${API_URL}/logs`);            // GET /api/logs
+//   logs = await resLogs.json();
+//   return; // salgo para que no siga con el localStorage
+// }
 function loadData() {
   const savedTasks = localStorage.getItem(STORAGE_KEY);
   const savedLogs = localStorage.getItem(LOG_KEY);
@@ -80,6 +109,7 @@ function loadData() {
     tasks = data.active || [];
     completedTasks = data.completed || [];
   } else {
+    // si es la primera vez, cargo tareas de ejemplo
     tasks = [
       {
         id: 1,
@@ -121,6 +151,10 @@ function loadData() {
   }
 }
 
+// Guarda las tareas en el navegador
+// GUÍA API: con la API ya no hace falta guardar todo junto.
+// Se manda cada cambio por separado desde las funciones de ACCIONES (más abajo):
+// crear -> POST, editar -> PUT, eliminar -> DELETE.
 function saveData() {
   localStorage.setItem(
     STORAGE_KEY,
@@ -131,10 +165,15 @@ function saveData() {
   );
 }
 
+// Guarda el historial en el navegador
+// GUÍA API: el historial lo podría guardar el backend (POST /api/logs)
 function saveLogs() {
   localStorage.setItem(LOG_KEY, JSON.stringify(logs));
 }
 
+// Busca el id más alto y le suma 1 para la tarea nueva
+// GUÍA API: con base de datos, el id lo genera la base sola (autoincrement),
+// así que esta función ya no se usaría y no hay que mandar el id al crear.
 function getNextId() {
   const allIds = [
     ...tasks.map(task => task.id),
@@ -147,8 +186,10 @@ function getNextId() {
 
 // ==============================
 // RENDERIZADO
+// (dibujan los datos en la pantalla)
 // ==============================
 
+// Vuelve a dibujar todo
 function render() {
   renderTasks();
   renderCompleted();
@@ -156,9 +197,11 @@ function render() {
   renderLogs();
 }
 
+// Dibuja las tarjetas de tareas activas
 function renderTasks() {
   const taskList = document.getElementById("task-list");
 
+  // si no hay tareas muestro un mensaje
   if (tasks.length === 0) {
     taskList.innerHTML = `
       <p class="empty-message">No hay tareas activas por ahora.</p>
@@ -167,6 +210,7 @@ function renderTasks() {
   }
 
   taskList.innerHTML = tasks.map(task => {
+    // elijo la clase de color según la prioridad
     const priorityClass =
       task.priority === "Alta"
         ? "badge-alta"
@@ -224,6 +268,7 @@ function renderTasks() {
   }).join("");
 }
 
+// Dibuja las tareas finalizadas
 function renderCompleted() {
   const completedList = document.getElementById("completed-list");
 
@@ -256,6 +301,7 @@ function renderCompleted() {
   `).join("");
 }
 
+// Actualiza los números de las estadísticas
 function renderStats() {
   document.getElementById("stat-active").textContent = tasks.length;
   document.getElementById("stat-progress").textContent =
@@ -263,6 +309,7 @@ function renderStats() {
   document.getElementById("stat-done").textContent = completedTasks.length;
 }
 
+// Dibuja el historial de eventos
 function renderLogs() {
   const logContainer = document.getElementById("log-container");
 
@@ -276,11 +323,27 @@ function renderLogs() {
 // ACCIONES
 // ==============================
 
+// Se ejecuta al apretar "Guardar tarea": sirve para crear y también para editar
+// GUÍA API:
+//  - Si estoy editando (editingId tiene valor) -> PUT  `${API_URL}/tasks/${editingId}`
+//  - Si es una tarea nueva                     -> POST `${API_URL}/tasks`
+// Ejemplo para crear:
+//
+// if (USE_API) {
+//   const res = await fetch(`${API_URL}/tasks`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(taskData)      // taskData ya tiene los datos del formulario
+//   });
+//   const newTask = await res.json();     // la API me devuelve la tarea con su id
+//   tasks.push(newTask);
+// }
 function handleAddTask(event) {
-  event.preventDefault();
+  event.preventDefault(); // evita que la página se recargue
 
   const editingId = document.getElementById("task-form").dataset.editingId;
 
+  // junto los datos que escribió la persona en el formulario
   const taskData = {
     title: document.getElementById("task-title").value.trim(),
     priority: document.getElementById("task-priority").value,
@@ -291,6 +354,7 @@ function handleAddTask(event) {
   };
 
   if (editingId) {
+    // estoy editando una tarea que ya existe
     const task = tasks.find(item => item.id === Number(editingId));
 
     if (task) {
@@ -302,6 +366,7 @@ function handleAddTask(event) {
     document.querySelector('#task-form button[type="submit"]').textContent =
       "Guardar tarea";
   } else {
+    // es una tarea nueva
     const newTask = {
       id: getNextId(),
       ...taskData
@@ -316,6 +381,8 @@ function handleAddTask(event) {
   render();
 }
 
+// Pasa los datos de la tarea al formulario para poder editarla
+// (acá no hace falta tocar nada para la API, el cambio se manda en handleAddTask)
 function editTask(id) {
   const task = tasks.find(item => item.id === id);
 
@@ -329,7 +396,7 @@ function editTask(id) {
   document.getElementById("task-status").value = task.status;
 
   const form = document.getElementById("task-form");
-  form.dataset.editingId = id;
+  form.dataset.editingId = id; // me guardo qué tarea estoy editando
 
   document.querySelector('#task-form button[type="submit"]').textContent =
     "Actualizar tarea";
@@ -337,6 +404,9 @@ function editTask(id) {
   scrollToSection("nueva-tarea");
 }
 
+// Elimina una tarea (pide confirmación antes)
+// GUÍA API: antes de sacarla de la lista, avisar al servidor:
+// await fetch(`${API_URL}/tasks/${id}`, { method: "DELETE" });
 function deleteTask(id) {
   const task = tasks.find(item => item.id === id);
 
@@ -353,11 +423,19 @@ function deleteTask(id) {
   render();
 }
 
+// Cambia el estado desde el select de la tarjeta
+// GUÍA API: mandar solo el estado nuevo con PATCH:
+// await fetch(`${API_URL}/tasks/${id}`, {
+//   method: "PATCH",
+//   headers: { "Content-Type": "application/json" },
+//   body: JSON.stringify({ status: newStatus })
+// });
 function changeStatus(id, newStatus) {
   const task = tasks.find(item => item.id === id);
 
   if (!task) return;
 
+  // si elige "finalizada" la paso a la otra lista
   if (newStatus === "finalizada") {
     completeTask(id);
     return;
@@ -370,6 +448,9 @@ function changeStatus(id, newStatus) {
   render();
 }
 
+// Pasa una tarea de activas a finalizadas
+// GUÍA API: se puede avisar con PATCH `${API_URL}/tasks/${id}` y status "finalizada"
+// (o un endpoint propio, tipo POST `${API_URL}/tasks/${id}/complete`)
 function completeTask(id) {
   const index = tasks.findIndex(task => task.id === id);
 
@@ -391,6 +472,9 @@ function completeTask(id) {
   render();
 }
 
+// Vuelve a pasar una tarea finalizada a activas
+// GUÍA API: igual que arriba, avisar al servidor (PATCH con status "pendiente"
+// o un endpoint tipo POST `${API_URL}/tasks/${id}/restore`)
 function restoreTask(id) {
   const index = completedTasks.findIndex(task => task.id === id);
 
@@ -398,6 +482,7 @@ function restoreTask(id) {
 
   const task = completedTasks[index];
 
+  // como la finalizada no guarda prioridad ni categoría, le pongo valores por defecto
   tasks.push({
     id: task.id,
     title: task.title,
@@ -420,6 +505,8 @@ function restoreTask(id) {
 // EXPORTAR CSV
 // ==============================
 
+// Si el texto tiene ; o comillas o salto de línea, lo encierra entre comillas
+// para que no se rompa la columna en Excel
 function escapeCsv(value) {
   const text = String(value ?? "");
 
@@ -430,7 +517,9 @@ function escapeCsv(value) {
   return text;
 }
 
+// Arma el archivo CSV y lo descarga
 function exportCsv() {
+  // títulos de las columnas
   const headers = [
     "ID",
     "Titulo",
@@ -441,6 +530,7 @@ function exportCsv() {
     "Estado"
   ];
 
+  // filas de las tareas activas
   const activeRows = tasks.map(task => [
     task.id,
     task.title,
@@ -451,6 +541,7 @@ function exportCsv() {
     task.status
   ]);
 
+  // filas de las finalizadas (algunos datos quedan vacíos)
   const completedRows = completedTasks.map(task => [
     task.id,
     task.title,
@@ -461,6 +552,7 @@ function exportCsv() {
     "finalizada"
   ]);
 
+  // uno todo en un solo texto: columnas separadas con ; y filas con salto de línea
   const csvContent = [
     headers,
     ...activeRows,
@@ -469,10 +561,12 @@ function exportCsv() {
     .map(row => row.map(escapeCsv).join(";"))
     .join("\n");
 
+  // el \uFEFF hace que Excel muestre bien las tildes
   const blob = new Blob(["\uFEFF" + csvContent], {
     type: "text/csv;charset=utf-8;"
   });
 
+  // creo un link invisible, le hago click y lo borro
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
 
@@ -492,6 +586,7 @@ function exportCsv() {
 // INICIO
 // ==============================
 
+// Pone la fecha de hoy por defecto en el campo "Fecha límite"
 function setDefaultDate() {
   const today = new Date();
   const year = today.getFullYear();
@@ -501,9 +596,11 @@ function setDefaultDate() {
   document.getElementById("task-deadline").value = `${year}-${month}-${day}`;
 }
 
+// cuando se envía el formulario, se ejecuta handleAddTask
 document.getElementById("task-form")
   .addEventListener("submit", handleAddTask);
 
+// arranque de la página
 loadData();
 setDefaultDate();
 render();
